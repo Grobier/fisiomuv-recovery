@@ -16,11 +16,11 @@
     "react-hook-form": "^7.48.2",
     "zod": "3.22.4",
     "@hookform/resolvers": "^3.3.2",
-    "lucide-react": "^0.294.0"
+    "lucide-react": "^0.294.0",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17"
   },
   "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
     "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
