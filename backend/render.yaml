@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: fisiomuv-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: CORS_ORIGIN
+        value: https://fisiomuv-frontend.onrender.com
+      - key: FIREBASE_PROJECT_ID
+        value: preventa-98baa
+      - key: FIREBASE_PRIVATE_KEY
+        value: "-----BEGIN PRIVATE KEY-----\nTU_PRIVATE_KEY_AQUI\n-----END PRIVATE KEY-----\n"
+      - key: FIREBASE_CLIENT_EMAIL
+        value: firebase-adminsdk-fbsvc@preventa-98baa.iam.gserviceaccount.com
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        value: grboier.2h@gmail.com
+      - key: SMTP_PASS
+        value: "TU_APP_PASSWORD_AQUI"
+      - key: EMAIL_FROM
+        value: grboier.2h@gmail.com
+      - key: EMAIL_TO
+        value: admin@fisiomuv.com
+      - key: RATE_LIMIT_WINDOW_MS
+        value: "60000"
+      - key: RATE_LIMIT_MAX
+        value: "10"
