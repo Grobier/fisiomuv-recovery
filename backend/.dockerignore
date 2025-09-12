@@ -6,7 +6,11 @@ README.md
 .env
 .nyc_output
 coverage
-.nyc_output
 .coverage
-dist
 *.log
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+*~
