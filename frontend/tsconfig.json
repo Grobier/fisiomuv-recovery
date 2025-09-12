@@ -22,6 +22,9 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
 
     /* Path mapping */
     "baseUrl": ".",

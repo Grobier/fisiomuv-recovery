@@ -13,15 +13,21 @@ interface ImportMeta {
 
 // Declaraciones para React (fallback)
 declare module 'react' {
-  export * from 'react'
+  const React: any
+  export = React
+  export as namespace React
 }
 
 declare module 'react-dom/client' {
-  export * from 'react-dom/client'
+  const ReactDOMClient: any
+  export = ReactDOMClient
+  export as namespace ReactDOMClient
 }
 
 declare module 'react/jsx-runtime' {
-  export * from 'react/jsx-runtime'
+  const JSXRuntime: any
+  export = JSXRuntime
+  export as namespace JSXRuntime
 }
 
 // Declaraciones para window.dataLayer (Google Analytics)
