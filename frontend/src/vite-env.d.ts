@@ -10,7 +10,7 @@ interface ImportMeta {
   readonly env: ImportMetaEnv
 }
 
-// Declaraciones globales para React
+// Declaraciones globales
 declare global {
   interface Window {
     dataLayer: any[]
@@ -21,29 +21,26 @@ declare global {
       [elemName: string]: any
     }
   }
-  
-  const React: any
-  const useState: any
-  const useEffect: any
-  const useCallback: any
-  const useMemo: any
-  const useRef: any
-  const createContext: any
-  const useContext: any
-  const useReducer: any
-  const StrictMode: any
 }
 
-// Declaraciones de módulos
+// Declaraciones de módulos React
 declare module 'react' {
-  const React: any
-  export = React
-  export as namespace React
+  export const useState: any
+  export const useEffect: any
+  export const useCallback: any
+  export const useMemo: any
+  export const useRef: any
+  export const createContext: any
+  export const useContext: any
+  export const useReducer: any
+  export const StrictMode: any
+  export const FC: any
+  export const ComponentType: any
+  export default any
 }
 
 declare module 'react-dom/client' {
-  function createRoot(container: any): any
-  export { createRoot }
+  export const createRoot: any
 }
 
 declare module 'react/jsx-runtime' {
