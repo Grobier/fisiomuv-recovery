@@ -71,3 +71,4 @@ Write-Host "  Frontend: http://localhost:5173" -ForegroundColor White
 Write-Host ""
 Write-Host "📚 Lee el README.md para más información" -ForegroundColor Cyan
 
+

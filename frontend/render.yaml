@@ -1,0 +1,14 @@
+# Configuración para Render - Frontend
+services:
+  - type: web
+    name: fisiomuv-frontend
+    env: static
+    region: us-east-1
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://fisiomuv-recovery.onrender.com
+      - key: NODE_ENV
+        value: production

@@ -1,6 +1,6 @@
 import { PreVentaFormData } from './validation';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fisiomuv-recovery.onrender.com';
 
 export interface ApiResponse<T = any> {
   ok: boolean;

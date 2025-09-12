@@ -69,3 +69,4 @@ echo "  Frontend: http://localhost:5173"
 echo ""
 echo "📚 Lee el README.md para más información"
 
+
