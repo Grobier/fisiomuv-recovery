@@ -1,3 +1,14 @@
+/**
+ * FisioMuv Recovery Backend Server
+ * 
+ * Este servidor Express sirve tanto la API como el frontend React estático.
+ * El frontend se construye en dist/ y se copia a backend/public/ durante el build.
+ * 
+ * Configuración para SPA:
+ * - Los archivos estáticos se sirven desde /public
+ * - Las rutas de API están bajo /api/*
+ * - Todas las demás rutas redirigen a index.html (SPA fallback)
+ */
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -51,8 +62,11 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Servir archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Servir archivos estáticos del frontend desde el directorio public
+// En producción: __dirname apunta a dist/, por lo que public/ está en dist/public/
+// Los archivos del frontend se copian a backend/public/ durante el build
+const publicDir = path.join(__dirname, 'public');
+app.use(express.static(publicDir));
 
 // Rate limiting
 app.use('/api', createRateLimit());
@@ -70,17 +84,10 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Ruta catch-all para SPA (debe ir al final)
+// Ruta catch-all para SPA - debe ir después de las rutas API
+// Sirve index.html para todas las rutas no-API, permitiendo que React Router maneje el routing
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-});
-
-// Middleware para rutas no encontradas
-app.use('*', (req, res) => {
-  res.status(404).json({
-    error: 'not_found',
-    message: 'Ruta no encontrada',
-  });
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 // Middleware de manejo de errores

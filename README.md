@@ -32,35 +32,26 @@ Monorepo para la landing page de FisioMuv Recovery con backend y frontend listos
 ## Instalación y Desarrollo
 
 ### Prerrequisitos
-- Node.js 18+ 
-- MongoDB Atlas account
+- Node.js 22.x (especificado en engines)
+- MongoDB Atlas account o Firebase
 - Git
 
-### Instalación Rápida (Recomendada)
+### Instalación (Monorepo)
 
 ```bash
 # Clonar el repositorio
 git clone <repository-url>
 cd Recovery
 
-# Ejecutar script de configuración automática
+# Instalar todas las dependencias desde la raíz
+npm run install:all
+
+# O alternativamente, ejecutar script de configuración automática
 # En Windows (PowerShell):
 .\scripts\setup.ps1
 
 # En Linux/Mac:
 ./scripts/setup.sh
-```
-
-### Instalación Manual
-
-```bash
-# Instalar dependencias del backend
-cd backend
-npm install
-
-# Instalar dependencias del frontend
-cd ../frontend
-npm install
 ```
 
 ### 2. Configurar variables de entorno
@@ -86,33 +77,65 @@ RATE_LIMIT_MAX=10
 ### 3. Ejecutar en desarrollo
 
 ```bash
+# Opción 1: Desarrollo separado (recomendado para desarrollo)
 # Terminal 1 - Backend
 cd backend
 npm run dev
 
-# Terminal 2 - Frontend
+# Terminal 2 - Frontend  
 cd frontend
+npm run dev
+
+# Opción 2: Desde la raíz (usa concurrently)
 npm run dev
 ```
 
-- Backend: http://localhost:3001
-- Frontend: http://localhost:5173
+- Backend: http://localhost:3001 (API)
+- Frontend: http://localhost:5173 (desarrollo)
+
+### 4. Build y ejecución unificada (como en producción)
+
+```bash
+# Desde la raíz del proyecto
+npm run install:all
+npm run build:all
+npm run start
+
+# Visitar http://localhost:3000 (servidor unificado)
+```
 
 ## Scripts Disponibles
 
+### Raíz (Monorepo) - **Usar para producción**
+```bash
+npm run install:all     # Instalar deps de backend y frontend
+npm run build:backend   # Compilar TypeScript del backend
+npm run build:frontend  # Build del frontend con Vite
+npm run postbuild:copy  # Copiar frontend/dist a backend/public
+npm run build:all       # Build completo (backend + frontend + copy)
+npm run start           # Iniciar servidor unificado en producción
+npm run dev             # Desarrollo concurrente (ambos proyectos)
+```
+
 ### Backend
 ```bash
-npm run dev          # Desarrollo con nodemon
-npm run build        # Compilar TypeScript
-npm run start        # Iniciar producción
-npm run lint         # Linter
-npm run format       # Formatear código
+npm run dev            # Desarrollo con nodemon
+npm run build          # Compilar TypeScript
+npm run start          # Iniciar producción
+npm run lint           # Linter
+npm run format         # Formatear código
+
+# Scripts para despliegue alternativo (Root Directory = backend)
+npm run preinstall     # Instala deps del frontend
+npm run build:frontend # Build del frontend desde backend
+npm run postbuild:copy # Copia dist a backend/public
+npm run build:all      # Build completo desde backend
 ```
 
 ### Frontend
 ```bash
 npm run dev          # Desarrollo con Vite
-npm run build        # Build para producción
+npm run build        # Build para producción (solo vite build)
 npm run preview      # Preview del build
 npm run lint         # Linter
 npm run format       # Formatear código
@@ -153,25 +176,58 @@ Registra un lead de preventa.
 
 ## Despliegue
 
-### Backend (Railway/Render)
-1. Conecta tu repositorio
-2. Configura las variables de entorno
-3. Deploy automático
+### Opción 1: Despliegue Unificado en Render (Recomendado)
 
-### Frontend (Vercel)
+El backend sirve el frontend estáticamente como una SPA.
+
+#### Configuración para Root Directory = Repositorio (Recomendado)
+```yaml
+# render.yaml o configuración web
+Build Command: npm ci && npm run install:all && npm run build:all
+Start Command: npm run start
+Environment: Node 22.x
+```
+
+#### Configuración para Root Directory = backend/ (Alternativa)
+```yaml
+# render.yaml o configuración web  
+Build Command: npm ci && npm run build:all
+Start Command: npm run start
+Environment: Node 22.x
+Root Directory: backend
+```
+
+### Opción 2: Despliegue Separado (Anterior)
+
+#### Backend (Railway/Render)
 1. Conecta tu repositorio
-2. Configura build command: `cd frontend && npm run build`
-3. Output directory: `frontend/dist`
+2. Root Directory: `backend`
+3. Build Command: `npm ci && npm run build`
+4. Start Command: `npm run start`
+5. Configura las variables de entorno
+
+#### Frontend (Vercel)
+1. Conecta tu repositorio  
+2. Root Directory: `frontend`
+3. Build Command: `npm run build`
+4. Output Directory: `dist`
 
 ### Variables de Entorno para Producción
 
 ```env
-PORT=3001
+# Puerto para el servidor unificado (Render usa process.env.PORT automáticamente)
+PORT=3000
+# En desarrollo local, el frontend se sirve desde este mismo puerto
 CORS_ORIGIN=https://tu-dominio.com
 MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/
 MONGODB_DB_NAME=fisiomuv
 RATE_LIMIT_WINDOW_MS=60000
 RATE_LIMIT_MAX=10
+
+# Variables específicas para Firebase (si usas Firebase en lugar de MongoDB)
+FIREBASE_PROJECT_ID=tu-proyecto-id
+FIREBASE_CLIENT_EMAIL=tu-service-account@proyecto.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
 ```
 
 ## Estructura de la Base de Datos
@@ -199,15 +255,18 @@ interface PreVentaLead {
 
 ## Características
 
-- ✅ **Validación** cliente y servidor
+- ✅ **Despliegue unificado** - Frontend servido estáticamente por el backend
+- ✅ **Validación** cliente y servidor con Zod
 - ✅ **Rate limiting** para prevenir spam
 - ✅ **CORS** configurado
-- ✅ **Logging** estructurado
+- ✅ **Logging** estructurado con Pino
 - ✅ **SEO** básico con meta tags
 - ✅ **Analytics** ready (GA4/Plausible)
 - ✅ **Accesibilidad** AA
 - ✅ **Responsive** design
 - ✅ **TypeScript** estricto
+- ✅ **SPA routing** - React Router compatible
+- ✅ **Monorepo** con scripts unificados
 
 ## Contribución
 

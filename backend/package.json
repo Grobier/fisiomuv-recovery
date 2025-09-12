@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "build:frontend": "cd ../frontend && npm install && npm run build",
-    "build:all": "npm run build:frontend && npm run build",
     "start": "node dist/server.js",
     "start:prod": "cross-env NODE_ENV=production node dist/server.js",
-    "deploy": "npm run build:all && firebase deploy --only firestore:rules,firestore:indexes",
     "lint": "eslint src/**/*.ts",
-    "format": "prettier --write src/**/*.ts"
+    "format": "prettier --write src/**/*.ts",
+    "preinstall": "npm --prefix ../frontend install",
+    "build:frontend": "npm --prefix ../frontend run build",
+    "postbuild:copy": "rm -rf public && mkdir -p public && cp -r ../frontend/dist/* public/",
+    "build:all": "npm run build && npm run build:frontend && npm run postbuild:copy",
+    "deploy": "npm run build:all && firebase deploy --only firestore:rules,firestore:indexes"
   },
   "keywords": [
     "express",
