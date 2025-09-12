@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalar dependencias
-RUN npm ci --only=production
+RUN npm install --only=production
 
 # Copiar código fuente
 COPY . .
@@ -20,5 +20,5 @@ RUN npm run build
 EXPOSE 3001
 
 # Comando para iniciar la aplicación
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]
 
