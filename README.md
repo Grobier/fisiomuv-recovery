@@ -183,10 +183,12 @@ El backend sirve el frontend estáticamente como una SPA.
 #### Configuración para Root Directory = Repositorio (Recomendado)
 ```yaml
 # render.yaml o configuración web
-Build Command: npm ci && npm run install:all && npm run build:all
+Build Command: npm run build:all
 Start Command: npm run start
 Environment: Node 22.x
 ```
+
+**IMPORTANTE:** No uses `npm ci` en la raíz ya que no instala las dependencias de los subdirectorios. El script `build:all` incluye `install:all` que maneja esto correctamente.
 
 #### Configuración para Root Directory = backend/ (Alternativa)
 ```yaml
@@ -195,6 +197,29 @@ Build Command: npm ci && npm run build:all
 Start Command: npm run start
 Environment: Node 22.x
 Root Directory: backend
+```
+
+### Troubleshooting de Despliegue
+
+#### Error: "Cannot find module" durante build
+**Causa:** Las dependencias no se instalan correctamente en Render.
+**Solución:** Asegúrate de usar el comando correcto:
+- ✅ `Build Command: npm run build:all` (recomendado)
+- ❌ `Build Command: npm ci && npm run build:all` (problemático en monorepo)
+
+#### Error: "Cannot find name 'console'" en TypeScript
+**Causa:** Configuración de TypeScript no incluye tipos de Node.js.
+**Solución:** Ya corregido en `backend/tsconfig.json` con `"types": ["node"]`.
+
+#### Error: Frontend no se sirve (404 en rutas)
+**Causa:** El directorio `public/` no existe o está vacío.
+**Solución:** Verifica los logs del servidor que muestran:
+```
+🔍 DIAGNÓSTICO DE RUTAS:
+  __dirname: /opt/render/project/src/backend/dist
+  publicDir: /opt/render/project/src/backend/dist/public
+  ¿Directorio public existe?: true
+  ¿index.html existe?: true
 ```
 
 ### Opción 2: Despliegue Separado (Anterior)

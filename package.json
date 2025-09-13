@@ -13,12 +13,13 @@
     "format": "npm run format:backend && npm run format:frontend",
     "format:backend": "cd backend && npm run format",
     "format:frontend": "cd frontend && npm run format",
-    "install:all": "npm --prefix backend install && npm --prefix frontend install",
-    "build:backend": "npm --prefix backend run build",
-    "build:frontend": "npm --prefix frontend run build",
-    "postbuild:copy": "rm -rf backend/public && mkdir -p backend/public && cp -r frontend/dist/* backend/public/",
-    "build:all": "npm run build:backend && npm run build:frontend && npm run postbuild:copy",
-    "start": "npm --prefix backend run start"
+    "install:all": "echo '📦 Instalando dependencias del backend...' && npm --prefix backend install && echo '📦 Instalando dependencias del frontend...' && npm --prefix frontend install && echo '✅ Todas las dependencias instaladas'",
+    "build:backend": "echo '🔨 Compilando backend TypeScript...' && npm --prefix backend run build && echo '✅ Backend compilado'",
+    "build:frontend": "echo '🔨 Construyendo frontend con Vite...' && npm --prefix frontend run build && echo '✅ Frontend construido'",
+    "postbuild:copy": "echo '📋 Copiando archivos del frontend al backend...' && rm -rf backend/public && mkdir -p backend/public && cp -r frontend/dist/* backend/public/ && echo '✅ Archivos copiados a backend/public'",
+    "build:all": "npm run install:all && npm run build:backend && npm run build:frontend && npm run postbuild:copy && npm run debug:structure && echo '🎉 Build completo exitoso'",
+    "start": "npm --prefix backend run start",
+    "debug:structure": "echo '🔍 VERIFICACIÓN POST-BUILD:' && echo 'Frontend dist:' && ls -la frontend/dist/ 2>/dev/null || echo 'frontend/dist/ no existe' && echo 'Backend public:' && ls -la backend/public/ 2>/dev/null || echo 'backend/public/ no existe' && echo 'Backend dist:' && ls -la backend/dist/ 2>/dev/null || echo 'backend/dist/ no existe'"
   },
   "engines": {
     "node": "22.x"

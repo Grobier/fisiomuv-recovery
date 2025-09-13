@@ -15,6 +15,7 @@ import helmet from 'helmet';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 import path from 'path';
+import fs from 'fs';
 
 import { env } from './lib/env';
 import { createRateLimit } from './lib/rateLimit';
@@ -66,6 +67,26 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // En producción: __dirname apunta a dist/, por lo que public/ está en dist/public/
 // Los archivos del frontend se copian a backend/public/ durante el build
 const publicDir = path.join(__dirname, 'public');
+
+// Log de diagnóstico para verificar rutas
+console.log('🔍 DIAGNÓSTICO DE RUTAS:');
+console.log('  __dirname:', __dirname);
+console.log('  publicDir:', publicDir);
+console.log('  process.cwd():', process.cwd());
+
+// Verificar si el directorio public existe
+const publicExists = fs.existsSync(publicDir);
+console.log('  ¿Directorio public existe?:', publicExists);
+
+if (publicExists) {
+  const files = fs.readdirSync(publicDir);
+  console.log('  Archivos en public:', files.slice(0, 5)); // Solo mostrar primeros 5
+  const indexExists = fs.existsSync(path.join(publicDir, 'index.html'));
+  console.log('  ¿index.html existe?:', indexExists);
+} else {
+  console.warn('⚠️ ADVERTENCIA: Directorio public no encontrado. El frontend no se servirá correctamente.');
+}
+
 app.use(express.static(publicDir));
 
 // Rate limiting

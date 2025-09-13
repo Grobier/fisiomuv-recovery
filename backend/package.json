@@ -14,7 +14,8 @@
     "build:frontend": "npm --prefix ../frontend run build",
     "postbuild:copy": "rm -rf public && mkdir -p public && cp -r ../frontend/dist/* public/",
     "build:all": "npm run build && npm run build:frontend && npm run postbuild:copy",
-    "deploy": "npm run build:all && firebase deploy --only firestore:rules,firestore:indexes"
+    "deploy": "npm run build:all && firebase deploy --only firestore:rules,firestore:indexes",
+    "debug:paths": "echo '🔍 Verificando estructura de archivos:' && echo 'Directorio actual:' && pwd && echo 'Contenido del directorio:' && ls -la && echo 'Contenido de dist (si existe):' && ls -la dist/ 2>/dev/null || echo 'dist/ no existe' && echo 'Contenido de public (si existe):' && ls -la public/ 2>/dev/null || echo 'public/ no existe'"
   },
   "keywords": [
     "express",
