@@ -6,6 +6,8 @@ import { Pricing } from '../components/Pricing';
 import { PreSaleForm } from '../components/PreSaleForm';
 import { Faq } from '../components/Faq';
 import { Footer } from '../components/Footer';
+import { WhatsAppButton } from '../components/WhatsAppButton';
+import { contactConfig } from '../config/contact';
 import { analytics } from '../lib/analytics';
 
 export const Home: React.FC = () => {
@@ -36,6 +38,13 @@ export const Home: React.FC = () => {
       </main>
       
       <Footer />
+      
+      {/* WhatsApp Float Button */}
+      <WhatsAppButton 
+        phoneNumber={contactConfig.whatsapp.number}
+        message={contactConfig.whatsapp.message}
+        businessName={contactConfig.whatsapp.businessName}
+      />
     </div>
   );
 };

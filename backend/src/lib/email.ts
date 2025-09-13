@@ -54,6 +54,7 @@ export const sendPreventaNotification = async (lead: IPreVentaLead): Promise<voi
             <h3 style="color: #1e40af; margin-top: 0;">Información del Cliente</h3>
             <p><strong>Email:</strong> ${lead.email}</p>
             ${lead.nombre ? `<p><strong>Nombre:</strong> ${lead.nombre}</p>` : ''}
+            <p><strong>📱 Teléfono:</strong> <a href="tel:${lead.telefono}" style="color: #059669; text-decoration: none;">${lead.telefono}</a></p>
             <p><strong>Servicio de Interés:</strong> ${lead.interes}</p>
             <p><strong>Origen:</strong> ${lead.origen}</p>
             <p><strong>Fecha:</strong> ${new Date(lead.timestamp).toLocaleString('es-ES')}</p>
@@ -79,7 +80,9 @@ export const sendPreventaNotification = async (lead: IPreVentaLead): Promise<voi
 
           <div style="background-color: #ecfdf5; padding: 15px; border-radius: 8px; margin: 15px 0;">
             <h4 style="color: #065f46; margin-top: 0;">Próximos Pasos</h4>
-            <p>1. Contactar al cliente para confirmar la reserva</p>
+            <p>1. <strong>Contactar al cliente</strong> para confirmar la reserva</p>
+            <p>   📞 <a href="tel:${lead.telefono}" style="color: #059669; text-decoration: none;">${lead.telefono}</a></p>
+            <p>   💬 <a href="https://wa.me/${lead.telefono.replace(/\D/g, '')}" target="_blank" style="color: #25D366; text-decoration: none;">WhatsApp</a></p>
             <p>2. Proporcionar información sobre el servicio ${lead.interes}</p>
             <p>3. Coordinar fecha y hora para la sesión</p>
           </div>

@@ -87,17 +87,17 @@ export const Footer: React.FC = () => {
               <div className="space-y-3 text-gray-300">
                 <div className="flex items-center">
                   <Mail className="h-4 w-4 mr-3 text-primary-400" />
-                  <span className="text-sm">hola@fisiomuv.com</span>
+                  <span className="text-sm">grobier.2h@gmail.com</span>
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-4 w-4 mr-3 text-primary-400" />
-                  <span className="text-sm">+57 (1) 234-5678</span>
+                  <span className="text-sm">+56 9 633 52 063</span>
                 </div>
                 <div className="flex items-start">
                   <MapPin className="h-4 w-4 mr-3 text-primary-400 mt-0.5" />
                   <span className="text-sm">
-                    Bogotá, Colombia<br />
-                    Próximamente
+                    Santiago, Chile<br />
+                    
                   </span>
                 </div>
               </div>
