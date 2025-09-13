@@ -161,6 +161,7 @@ Registra un lead de preventa.
 {
   "email": "usuario@ejemplo.com",
   "nombre": "Juan Pérez",
+  "telefono": "+57 300 123 4567",
   "interes": "Masaje",
   "consent": true
 }
@@ -263,6 +264,7 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
 interface PreVentaLead {
   email: string;
   nombre?: string;
+  telefono: string;
   interes: 'Masaje' | 'Pistola' | 'Sauna' | 'Pack';
   origen: 'landing';
   timestamp: number;

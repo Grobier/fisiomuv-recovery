@@ -9,11 +9,29 @@ import { useToast, ToastContainer } from './Toast';
 
 interface PreSaleFormProps {
   onSuccess?: () => void;
+  preselectedService?: string;
 }
 
-export const PreSaleForm: React.FC<PreSaleFormProps> = ({ onSuccess }) => {
+export const PreSaleForm: React.FC<PreSaleFormProps> = ({ onSuccess, preselectedService }) => {
   const { toasts, showSuccess, showError, removeToast } = useToast();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  // Mapear IDs de servicios a nombres del formulario
+  const serviceMapping: Record<string, Interes> = {
+    'masaje': 'Masaje Manual',
+    'pistola': 'Pistola de Percusión', 
+    'sauna': 'Sauna',
+    'pack-recovery': 'Pack Recovery',
+    'pack-express': 'Pack Express'
+  };
+
+  // Determinar el servicio inicial basado en la preselección
+  const getInitialService = (): Interes => {
+    if (preselectedService && serviceMapping[preselectedService]) {
+      return serviceMapping[preselectedService];
+    }
+    return 'Masaje Manual';
+  };
 
   const {
     register,
@@ -27,7 +45,8 @@ export const PreSaleForm: React.FC<PreSaleFormProps> = ({ onSuccess }) => {
     defaultValues: {
       email: '',
       nombre: '',
-      interes: 'Masaje Manual',
+      telefono: '',
+      interes: getInitialService(),
       consent: false,
     },
   });
@@ -77,6 +96,13 @@ export const PreSaleForm: React.FC<PreSaleFormProps> = ({ onSuccess }) => {
     setValue('interes', interes);
     analytics.trackCtaClick(`form_interes_${interes.toLowerCase()}`);
   };
+
+  // Actualizar el servicio cuando cambie la preselección
+  React.useEffect(() => {
+    if (preselectedService && serviceMapping[preselectedService]) {
+      setValue('interes', serviceMapping[preselectedService]);
+    }
+  }, [preselectedService, setValue]);
 
   React.useEffect(() => {
     analytics.trackViewContent('formulario_preventa');
@@ -132,6 +158,30 @@ export const PreSaleForm: React.FC<PreSaleFormProps> = ({ onSuccess }) => {
                 className="input-field"
                 placeholder="Tu nombre"
               />
+            </div>
+
+            {/* Teléfono */}
+            <div>
+              <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-2">
+                Teléfono *
+              </label>
+              <input
+                {...register('telefono')}
+                type="tel"
+                id="telefono"
+                className={`input-field ${errors.telefono ? 'input-error' : ''}`}
+                placeholder="+57 300 123 4567"
+                aria-describedby={errors.telefono ? 'telefono-error' : 'telefono-help'}
+                aria-invalid={errors.telefono ? 'true' : 'false'}
+              />
+              {errors.telefono && (
+                <p id="telefono-error" className="mt-2 text-sm text-red-600" role="alert">
+                  {errors.telefono.message}
+                </p>
+              )}
+              <p id="telefono-help" className="mt-2 text-xs text-gray-500">
+                Necesitamos tu teléfono para confirmar la cita
+              </p>
             </div>
 
             {/* Interés */}

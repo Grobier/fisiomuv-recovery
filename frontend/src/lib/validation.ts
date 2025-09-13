@@ -10,6 +10,15 @@ export const preventaSchema = z.object({
   nombre: z
     .string()
     .optional(),
+  telefono: z
+    .string()
+    .min(1, 'Teléfono es requerido')
+    .refine((val) => {
+      const cleanPhone = val.replace(/\D/g, '');
+      return cleanPhone.length >= 7 && cleanPhone.length <= 15;
+    }, {
+      message: 'Teléfono debe tener entre 7 y 15 dígitos'
+    }),
   interes: z.enum(['Masaje Manual', 'Pistola de Percusión', 'Sauna', 'Pack Recovery', 'Pack Express'] as const, {
     errorMap: () => ({ message: 'Selecciona un servicio' }),
   }),

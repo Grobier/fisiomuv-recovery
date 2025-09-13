@@ -9,7 +9,12 @@ import { Footer } from '../components/Footer';
 import { analytics } from '../lib/analytics';
 
 export const Home: React.FC = () => {
-  const handleCtaClick = () => {
+  const [selectedService, setSelectedService] = React.useState<string | undefined>(undefined);
+
+  const handleCtaClick = (serviceId?: string) => {
+    if (serviceId) {
+      setSelectedService(serviceId);
+    }
     document.getElementById('preventa-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -22,11 +27,11 @@ export const Home: React.FC = () => {
     <div className="min-h-screen">
       {/* Main Content */}
       <main>
-        <Hero onCtaClick={handleCtaClick} />
-        <Benefits />
+        <Hero onCtaClick={() => handleCtaClick()} />
+        <Benefits onCtaClick={() => handleCtaClick()} />
         <ScientificBenefits />
-        <Pricing />
-        <PreSaleForm />
+        <Pricing onServiceSelect={handleCtaClick} />
+        <PreSaleForm preselectedService={selectedService} />
         <Faq />
       </main>
       

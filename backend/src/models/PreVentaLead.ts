@@ -12,6 +12,7 @@ export interface IPreVentaLead {
   id?: string;
   email: string;
   nombre?: string;
+  telefono: string;
   interes: Interes;
   origen: string;
   timestamp: number;
@@ -26,6 +27,7 @@ export class PreVentaLead {
   public id?: string;
   public email: string;
   public nombre?: string;
+  public telefono: string;
   public interes: Interes;
   public origen: string;
   public timestamp: number;
@@ -38,6 +40,7 @@ export class PreVentaLead {
   constructor(data: Omit<IPreVentaLead, 'id' | 'createdAt' | 'updatedAt'>) {
     this.email = data.email;
     this.nombre = data.nombre;
+    this.telefono = data.telefono;
     this.interes = data.interes;
     this.origen = data.origen || 'landing';
     this.timestamp = data.timestamp;
@@ -60,7 +63,10 @@ export class PreVentaLead {
       updatedAt: this.updatedAt,
     };
 
-    // Solo agregar campos que no sean undefined
+    // Agregar teléfono que ahora es requerido
+    data.telefono = this.telefono;
+    
+    // Solo agregar campos opcionales que no sean undefined
     if (this.nombre) data.nombre = this.nombre;
     if (this.utm) data.utm = this.utm;
     if (this.referer) data.referer = this.referer;
@@ -73,6 +79,7 @@ export class PreVentaLead {
     const lead = new PreVentaLead({
       email: data.email,
       nombre: data.nombre,
+      telefono: data.telefono,
       interes: data.interes,
       origen: data.origen || 'landing',
       timestamp: data.timestamp,

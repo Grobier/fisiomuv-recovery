@@ -41,7 +41,11 @@ const benefits: Benefit[] = [
   },
 ];
 
-export const Benefits: React.FC = () => {
+interface BenefitsProps {
+  onCtaClick?: () => void;
+}
+
+export const Benefits: React.FC<BenefitsProps> = ({ onCtaClick }) => {
   const handleViewContent = () => {
     analytics.trackViewContent('beneficios');
   };
@@ -92,7 +96,7 @@ export const Benefits: React.FC = () => {
           <button
             onClick={() => {
               analytics.trackCtaClick('beneficios_cta');
-              document.getElementById('preventa-form')?.scrollIntoView({ behavior: 'smooth' });
+              onCtaClick?.();
             }}
             className="btn-primary text-lg px-8 py-4"
             aria-label="Reservar preventa desde sección de beneficios"

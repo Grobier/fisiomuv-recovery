@@ -93,14 +93,18 @@ const formatPrice = (price: number) => {
   }).format(price);
 };
 
-export const Pricing: React.FC = () => {
+interface PricingProps {
+  onServiceSelect?: (serviceId: string) => void;
+}
+
+export const Pricing: React.FC<PricingProps> = ({ onServiceSelect }) => {
   const handleViewContent = () => {
     analytics.trackViewContent('precios');
   };
 
   const handleCtaClick = (serviceId: string) => {
     analytics.trackCtaClick(`precios_${serviceId}`);
-    document.getElementById('preventa-form')?.scrollIntoView({ behavior: 'smooth' });
+    onServiceSelect?.(serviceId);
   };
 
   React.useEffect(() => {
