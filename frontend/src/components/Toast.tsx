@@ -98,6 +98,26 @@ interface ToastContainerProps {
 export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onClose }) => {
   if (toasts.length === 0) return null;
 
+  // Si hay un toast de éxito, mostrarlo centrado y prominente
+  const hasSuccessToast = toasts.some(toast => toast.type === 'success');
+  
+  if (hasSuccessToast) {
+    return (
+      <div className="toast-container-centered">
+        {toasts.map(toast => (
+          <ToastCentered
+            key={toast.id}
+            id={toast.id}
+            type={toast.type}
+            message={toast.message}
+            onClose={onClose}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // Para errores, usar el estilo original (esquina superior derecha)
   return (
     <div className="toast-container">
       {toasts.map(toast => (
@@ -109,6 +129,64 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onClose 
           onClose={onClose}
         />
       ))}
+    </div>
+  );
+};
+
+// Componente Toast centrado para mensajes de éxito
+const ToastCentered: React.FC<ToastProps> = ({
+  id,
+  type,
+  message,
+  onClose,
+  duration = 8000, // Más tiempo para que puedan leerlo
+}) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose(id);
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [id, onClose, duration]);
+
+  const handleClose = () => {
+    onClose(id);
+  };
+
+  return (
+    <div
+      className="toast-centered"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <div className="toast-centered-content">
+        {/* Ícono de éxito */}
+        <div className="toast-centered-icon">
+          <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        
+        {/* Mensaje */}
+        <div className="toast-centered-message">
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+            ¡Reserva Exitosa!
+          </h3>
+          <p className="text-gray-600">
+            {message}
+          </p>
+        </div>
+        
+        {/* Botón cerrar */}
+        <button
+          onClick={handleClose}
+          className="toast-centered-close"
+          aria-label="Cerrar notificación"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
     </div>
   );
 };
