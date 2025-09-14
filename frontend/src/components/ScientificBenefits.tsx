@@ -23,10 +23,6 @@ export const ScientificBenefits: React.FC = () => {
             Aquí tienes la evidencia con estudios citados.
           </p>
           
-          <div className="inline-flex items-center bg-blue-100 text-blue-800 px-6 py-3 rounded-full text-sm font-medium mb-8">
-            <BookOpen className="h-4 w-4 mr-2" />
-            Evidencia científica con referencias PubMed
-          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

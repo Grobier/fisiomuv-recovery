@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Zap, Shield, Users, Clock, Award } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { analytics } from '../lib/analytics';
 
 interface Benefit {
@@ -46,6 +47,8 @@ interface BenefitsProps {
 }
 
 export const Benefits: React.FC<BenefitsProps> = ({ onCtaClick }) => {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+  
   const handleViewContent = () => {
     analytics.trackViewContent('beneficios');
   };
@@ -57,7 +60,10 @@ export const Benefits: React.FC<BenefitsProps> = ({ onCtaClick }) => {
   return (
     <section id="beneficios" className="section-padding bg-gray-50">
       <div className="section-container">
-        <div className="text-center mb-16">
+        <div 
+          ref={ref}
+          className={`text-center mb-16 scroll-animate ${isVisible ? 'visible' : ''}`}
+        >
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             ¿Por qué elegir FisioMuv Recovery?
           </h2>
@@ -73,7 +79,7 @@ export const Benefits: React.FC<BenefitsProps> = ({ onCtaClick }) => {
             return (
               <div
                 key={index}
-                className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
+                className={`bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:transform hover:-translate-y-2 scroll-animate-stagger ${isVisible ? 'visible' : ''} delay-${(index + 1) * 100}`}
               >
                 <div className="flex items-center mb-4">
                   <div className="p-3 bg-primary-100 rounded-lg mr-4">

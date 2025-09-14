@@ -60,6 +60,115 @@
   animation: fadeInUp 0.6s ease-out;
 }
 
+/* Animaciones de scroll */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fallback para cuando JavaScript no está disponible */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-animate,
+  .scroll-animate-scale,
+  .scroll-animate-stagger {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Mostrar elementos si no hay clase visible después de 2 segundos (fallback) */
+.scroll-animate:not(.visible) {
+  animation: fallback-show 0s 2s forwards;
+}
+
+@keyframes fallback-show {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-animate-scale {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-animate-scale.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-animate-scale:not(.visible) {
+  animation: fallback-show-scale 0s 2s forwards;
+}
+
+@keyframes fallback-show-scale {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.scroll-animate-stagger {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-animate-stagger.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate-stagger:not(.visible) {
+  animation: fallback-show 0s 2s forwards;
+}
+
+/* Delays para efecto stagger */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+.delay-500 { transition-delay: 0.5s; }
+
+/* Animación shimmer para elementos de urgencia */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Animación para widget flotante */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.5s ease-out;
+}
+
 /* Estilos para toast notifications */
 .toast-container {
   position: fixed;

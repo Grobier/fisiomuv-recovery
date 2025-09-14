@@ -13,10 +13,6 @@ const faqs: FaqItem[] = [
     answer: 'La preventa incluye acceso prioritario a nuestros servicios con precios especiales, reserva garantizada para los primeros clientes y un plan personalizado de recuperación adaptado a tus necesidades.',
   },
   {
-    question: '¿Cuándo comenzarán los servicios?',
-    answer: 'Estamos programados para abrir nuestras puertas en los próximos meses. Los clientes de preventa serán los primeros en ser contactados para agendar sus citas una vez que estemos operativos.',
-  },
-  {
     question: '¿Los precios de preventa son finales?',
     answer: 'Sí, los precios mostrados son los precios finales para clientes de preventa. Una vez que abramos al público general, los precios regulares serán aplicados.',
   },
@@ -27,14 +23,6 @@ const faqs: FaqItem[] = [
   {
     question: '¿Qué pasa si no puedo asistir en la fecha programada?',
     answer: 'Entendemos que pueden surgir imprevistos. Te permitimos reprogramar tu cita con al menos 24 horas de anticipación sin costo adicional.',
-  },
-  {
-    question: '¿Necesito tener experiencia previa en fisioterapia?',
-    answer: 'No es necesario. Nuestros servicios están diseñados tanto para atletas experimentados como para personas que buscan mejorar su bienestar físico. Adaptamos cada tratamiento a tu nivel y necesidades.',
-  },
-  {
-    question: '¿Qué medidas de seguridad implementan?',
-    answer: 'Seguimos todos los protocolos de bioseguridad requeridos, incluyendo desinfección regular de equipos, ventilación adecuada, y equipos de protección personal para nuestro staff.',
   },
   {
     question: '¿Ofrecen paquetes corporativos?',
@@ -91,7 +79,7 @@ const FaqItemComponent: React.FC<FaqItemComponentProps> = ({
 };
 
 export const Faq: React.FC = () => {
-  const [openItems, setOpenItems] = useState<Set<number>>(new Set());
+  const [openItems, setOpenItems] = useState(new Set<number>());
 
   const toggleItem = (index: number) => {
     setOpenItems(prev => {

@@ -2,11 +2,13 @@ import React from 'react';
 import { Hero } from '../components/Hero';
 import { Benefits } from '../components/Benefits';
 import { ScientificBenefits } from '../components/ScientificBenefits';
+import { TrustIndicators } from '../components/TrustIndicators';
 import { Pricing } from '../components/Pricing';
 import { PreSaleForm } from '../components/PreSaleForm';
 import { Faq } from '../components/Faq';
 import { Footer } from '../components/Footer';
 import { WhatsAppButton } from '../components/WhatsAppButton';
+import { PreventaFloatingWidget } from '../components/PreventaFloatingWidget';
 import { contactConfig } from '../config/contact';
 import { analytics } from '../lib/analytics';
 
@@ -31,6 +33,7 @@ export const Home: React.FC = () => {
       <main>
         <Hero onCtaClick={() => handleCtaClick()} />
         <Benefits onCtaClick={() => handleCtaClick()} />
+        <TrustIndicators />
         <ScientificBenefits />
         <Pricing onServiceSelect={handleCtaClick} />
         <PreSaleForm preselectedService={selectedService} />
@@ -45,6 +48,9 @@ export const Home: React.FC = () => {
         message={contactConfig.whatsapp.message}
         businessName={contactConfig.whatsapp.businessName}
       />
+      
+      {/* Preventa Floating Widget */}
+      <PreventaFloatingWidget />
     </div>
   );
 };
